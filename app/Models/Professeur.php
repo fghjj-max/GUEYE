@@ -13,15 +13,16 @@ class Professeur extends Model
 
     // un professeur est lier a plusieur cours
     public function cours(){
-        return $this->belongsToMany(Cour::class);
+        return $this->belongsToMany(Cour::class,'professeurs_cours');
     }
     // un professeur est lier a plusieur classe
-    public function classe(){
-        return $this->belongsToMany(Classe::class);
+    public function classes()
+    {
+        return $this->belongsToMany(Classe::class, 'professeurs_classes');
     }
     // un professeur est lier a un seul emploie tu temp
-    public function emploie()
+    public function emploies()
     {
-        return $this->belongsToMany(Emploie::class);
+        return $this->belongsToMany(Emploie::class,'emploie_professeurs');
     }
 }

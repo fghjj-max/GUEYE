@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Classe extends Model
 {
     use HasFactory;
-    protected $fillable = ['nom_classe'];
+    protected $fillable = ['nom_classes'];
 
 
 
@@ -19,11 +19,12 @@ class Classe extends Model
     }
 
     // une classe est lier a plusieur professeur
-    public function professeur(){
-        return $this->belongsToMany(Professeur::class);
+    public function professeurs()
+    {
+        return $this->belongsToMany(Professeur::class, 'professeurs_classes');
     }
     public function emploie()
     {
-        return $this->belongsToMany(Emploie::class);
+        return $this->belongsToMany(Emploie::class,'emploie_classes');
     }
 }

@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href={{route('emploie')}}>Liste des Emploie tu temp</a>
+                <a class="nav-link" href={{route('emploie.emploie')}}>Liste des Emploie tu temp</a>
             </li>
 
 

@@ -13,8 +13,8 @@ class ProfesseurController extends Controller
      */
     public function index()
     {
-        $professeur= Professeur::all();
-        return view('professeur',compact('professeur'));
+        $professeurs= Professeur::all();
+        return view('professeur.professeur',compact('professeurs'));
     }
 
     /**
@@ -23,7 +23,7 @@ class ProfesseurController extends Controller
     public function create()
     {
         $professeur = new Professeur();
-        return view('addProfesseur',compact('professeur'));
+        return view('professeur.addProfesseur',compact('professeur'));
     }
 
     /**
@@ -56,7 +56,7 @@ class ProfesseurController extends Controller
     public function show(string $id)
     {
         $ev = Professeur::findOrFail($id);
-        return view('showProfesseur',compact('ev'));
+        return view('professeur.showProfesseur',compact('ev'));
     }
 
     /**
@@ -65,7 +65,7 @@ class ProfesseurController extends Controller
     public function edit(string $id)
     {
         $professeur= Professeur::find($id);
-        return view('addProfesseur',compact('professeur'));
+        return view('professeur.addProfesseur',compact('professeur'));
     }
 
     /**
@@ -74,10 +74,10 @@ class ProfesseurController extends Controller
     public function update(Request $request)
     {
         $professeur = Professeur::find($request['id']);
-        $professeur->Nom = $request['nom_professeur'];
-        $professeur->Prenom = $request['prenom_professeur'];
-        $professeur->prix = $request['email_professeur'];
-        $professeur->date = $request['telephone_professeur'];
+        $professeur->nom_professeur = $request['nom_professeur'];
+        $professeur->prenom_professeur = $request['prenom_professeur'];
+        $professeur->email_professeur = $request['email_professeur'];
+        $professeur->telephone_professeur = $request['telephone_professeur'];
         $professeur->save();
         return redirect('professeur')->with('success','Professeur modidie avec succes');
     }
@@ -90,7 +90,7 @@ class ProfesseurController extends Controller
 
         $ev =new Professeur();
         $ev->find($id)->delete();
-        return to_route('professeur');
+        return to_route('professeur.professeur');
     }
     //
 }

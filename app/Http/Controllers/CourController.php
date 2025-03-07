@@ -12,8 +12,8 @@ class CourController extends Controller
      */
     public function index()
     {
-        $cour= Cour::all();
-        return view('cour',compact('cour'));
+        $cours= Cour::all();
+        return view('cour.cour',compact('cours'));
     }
 
     /**
@@ -22,7 +22,7 @@ class CourController extends Controller
     public function create()
     {
         $cour = new Cour();
-        return view('addCour',compact('cour'));
+        return view('cour.addCour',compact('cour'));
     }
 
     /**
@@ -34,9 +34,7 @@ class CourController extends Controller
         //Validation
         $result =   $request->validate(
             [
-                'nom_cour' =>  'required',
-
-
+                'nom_cours' =>  'required',
             ]
         );
 
@@ -53,7 +51,7 @@ class CourController extends Controller
     public function show(string $id)
     {
         $ev = Cour::findOrFail($id);
-        return view('showCour',compact('ev'));
+        return view('cour.showCour',compact('ev'));
     }
 
     /**
@@ -62,7 +60,7 @@ class CourController extends Controller
     public function edit(string $id)
     {
         $cour= Cour::find($id);
-        return view('addCour',compact('cour'));
+        return view('cour.addCour',compact('cour'));
     }
 
     /**
@@ -71,7 +69,7 @@ class CourController extends Controller
     public function update(Request $request)
     {
         $cour = Cour::find($request['id']);
-        $cour->Nom = $request['nom_cour'];
+        $cour->nom_cours = $request['nom_cours'];
 
         $cour->save();
         return redirect('cour')->with('success','Cours modidie avec succes');
@@ -82,9 +80,9 @@ class CourController extends Controller
      */
     public function destroy(string $id)
     {
-        // Evenement::destroy($id);
+
         $ev =new Cour();
         $ev->find($id)->delete();
-        return to_route('cour');
+        return to_route('cour.cour');
     }    //
 }

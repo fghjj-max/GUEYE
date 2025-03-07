@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href={{route('professeur')}}>Liste des Professeurs</a>
+                <a class="nav-link" href={{route('professeur.professeur')}}>Liste des Professeurs</a>
             </li>
 
 

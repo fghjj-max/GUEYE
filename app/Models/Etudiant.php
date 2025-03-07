@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Etudiant extends Model
 {
     use HasFactory;
-    protected $fillable = ['nom_etudiant', 'prenom_etudiant', 'email_etudiant', 'telephone_etudiant', 'dateNaissance_etudiant'];
+    protected $fillable = ['nom_etudiant', 'prenom_etudiant', 'email_etudiant', 'telephone_etudiant', 'dateNaissance_etudiant','classe_id'];
 
 
     // un etudiant est lier a une seul classe

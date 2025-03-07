@@ -4,7 +4,7 @@
 
     <article>
 
-        <h1> Cours :{{$ev->nom_classes}} </h1><br>
+        <h1> Cours :{{$ev->nom_cours}} </h1><br>
     </article>
 
 

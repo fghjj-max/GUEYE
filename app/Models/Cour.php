@@ -12,7 +12,7 @@ class Cour extends Model
 
     // un Cours est lie a plusieur professeur
     public function professeur(){
-        return $this->belongsToMany(Professeur::class);
+        return $this->belongsToMany(Professeur::class,'professeurs_cours');
     }
 
     public function emploie()

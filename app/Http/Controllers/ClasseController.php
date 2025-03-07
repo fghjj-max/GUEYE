@@ -12,8 +12,8 @@ class ClasseController extends Controller
      */
     public function index()
     {
-        $classe= Classe::all();
-        return view('classe',compact('classe'));
+        $classes= Classe::all();
+        return view('classe.classe',compact('classes'));
     }
 
     /**
@@ -22,7 +22,7 @@ class ClasseController extends Controller
     public function create()
     {
         $classe = new Classe();
-        return view('addClasse',compact('classe'));
+        return view('classe.addClasse',compact('classe'));
     }
 
     /**
@@ -30,19 +30,13 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
-
-        //Validation
         $result =   $request->validate(
             [
-                'nom_cours' =>  'required',
+                'nom_classes' =>  'required',
             ]
         );
-
         Classe::create($result);
-
         return redirect('classe')->with('success','Classe ajoute avec succes');
-
-
     }
 
     /**
@@ -51,7 +45,7 @@ class ClasseController extends Controller
     public function show(string $id)
     {
         $ev = Classe::findOrFail($id);
-        return view('showClasse',compact('ev'));
+        return view('classe.showClasse',compact('ev'));
     }
 
     /**
@@ -60,7 +54,7 @@ class ClasseController extends Controller
     public function edit(string $id)
     {
         $classe= Classe::find($id);
-        return view('addClasse',compact('classe'));
+        return view('classe.addClasse',compact('classe'));
     }
 
     /**
@@ -69,7 +63,7 @@ class ClasseController extends Controller
     public function update(Request $request)
     {
         $classe = Classe::find($request['id']);
-        $classe ->Nom = $request['nom_classe'];
+        $classe ->nom_classes = $request['nom_classes'];
         $classe ->save();
         return redirect('classe')->with('success','Classe modidie avec succes');
     }
@@ -79,10 +73,10 @@ class ClasseController extends Controller
      */
     public function destroy(string $id)
     {
-        // Evenement::destroy($id);
+
         $ev =new Classe();
         $ev->find($id)->delete();
-        return to_route('classe');
+        return to_route('classe.classe');
     }
     //
 }

@@ -31,12 +31,7 @@ return new class extends Migration
 
         });
 
-        Schema::create('emploie_cours', function (Blueprint $table) {
-            $table->foreignIdFor(Emploie::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Cour::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->primary(['emploie_id', 'cour_id']);
 
-        });
 
         Schema::create('emploie_professeurs', function (Blueprint $table) {
             $table->foreignIdFor(Emploie::class)->nullable()->constrained()->cascadeOnDelete();
