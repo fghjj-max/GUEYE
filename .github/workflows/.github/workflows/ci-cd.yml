@@ -1,0 +1,82 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: ghcr.io/${{ github.repository }}:latest
+
+    steps:
+      # 1. Clonage du code
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Setup Java (pour backend Spring)
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. Build backend
+      - name: 🛠️ Build Backend
+        run: mvn clean package -DskipTests
+
+      # 4. Tests unitaires
+      - name: 🧪 Run Unit Tests
+        run: mvn test
+
+      # 5. Setup Node.js pour frontend
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # 6. Build frontend
+      - name: 🧱 Build Frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      # 7. Analyse SonarQube (qualité code)
+      - name: 🔍 SonarQube Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORG }}
+
+      # 8. Docker login (GitHub Container Registry ou DockerHub)
+      - name: 🐳 Docker Login
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login ghcr.io -u ${{ secrets.DOCKER_USER }} --password-stdin
+
+      # 9. Build Docker image
+      - name: 📦 Build Docker Image
+        run: docker build -t $IMAGE_NAME .
+
+      # 10. Push Docker image
+      - name: 📤 Push Docker Image
+        run: docker push $IMAGE_NAME
+
+      # 11. Déploiement (ex: via SSH sur un VPS)
+      - name: 🚀 Deploy to Server (via SSH)
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            docker pull $IMAGE_NAME
+            docker stop app || true
+            docker rm app || true
+            docker run -d --name app -p 80:8080 $IMAGE_NAME
